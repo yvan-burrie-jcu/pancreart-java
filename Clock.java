@@ -1,4 +1,4 @@
-package models;
+package jcu.cp3407.pancreart.model;
 
 /**
  * @author Jesse Kerridge-Byrne.
@@ -8,16 +8,15 @@ package models;
  */
 
 public class Clock extends Thread {
+    private final int bloodTest;
+    private final int hardwareTest;
+    //Variables for multiple message displaying
+    private final String[] messages = new String[5];
     //Initialise seconds, reset, and tests
     private int seconds;
     private int clockReset;
-    private final int bloodTest;
-    private final int hardwareTest;
-
-    //Variables for multiple message displaying
-    private final String[] messages = new String[5];
     private int messagePointer = 0;
-    // TODO: 20/09/2020 outputPointer may be useful for log transmission 
+    // TODO: 20/09/2020 outputPointer may be useful for log transmission
     //private int outputPointer = 0;
     private int arraySize = 0;
 
@@ -51,26 +50,27 @@ public class Clock extends Thread {
         // Simulate clock timer
         while (true) {
             // Reset the clock every 24 hours (86400 seconds in 24 hours)
+            // TODO: 21/09/2020 Add logic to set reset to when it has been downloaded from the pod.
             if (seconds == 86400) {
                 seconds = 0;
-                // TODO: 20/09/2020 Add Controller class to pod, implement and test below method 
+                // TODO: 20/09/2020 Add Controller class to pod, implement and test below method
                 //Controller.resetCumulativeDose();
             }
 
             // Every 10 mins (600 seconds) trigger controller to
             // determine whether any insulin should be administered
             if ((seconds % bloodTest) == 0) {
-                // TODO: 20/09/2020 Add Controller class to pod, implement and test below method 
+                // TODO: 20/09/2020 Add Controller class to pod, implement and test below method
                 //Controller.changeState(2); //State 2 = the run state
             }
 
             // Every 30 seconds run hardware test
             if ((seconds % hardwareTest) == 0) {
-                // TODO: 20/09/2020 Add Controller class to pod, implement and test below method 
+                // TODO: 20/09/2020 Add Controller class to pod, implement and test below method
                 //Controller.changeState(4); //State 4 = the test state
             }
 
-            // TODO: 20/09/2020 Remove alarm references. Project does not include alarm 
+            // TODO: 20/09/2020 Remove alarm references. Project does not include alarm
             // Every 10 seconds check the alarm
 //            if ((seconds % alarmCheck) == 0)
 //            {
@@ -100,6 +100,7 @@ public class Clock extends Thread {
             }
 
             // Increase the clock by 1 second
+            // TODO: 21/09/2020 Seconds may be too large a value for timestamps, consider changing to smaller values
             seconds = seconds + 1;
 
             //Update the clock displayed to the user
