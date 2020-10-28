@@ -4,19 +4,19 @@ import org.json.*;
 
 public class Event {
 
-    protected long userId;
+    public long userId;
 
-    protected long time;
+    public long time;
 
-    protected float amount;
+    public float amount;
 
-    Event(long userId, long time, float amount) {
+    public Event(long userId, long time, float amount) {
         this.userId = userId;
         this.time = time;
         this.amount = amount;
     }
 
-    Event(JSONObject buffer) throws JSONException {
+    public Event(JSONObject buffer) throws JSONException {
         userId = buffer.getLong("userId");
         time = buffer.getLong("time");
         amount = buffer.getFloat("amount");
