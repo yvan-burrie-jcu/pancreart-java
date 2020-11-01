@@ -6,7 +6,9 @@ public class Event {
 
     public long userId;
 
-    enum Type {
+    public long owner; // 0 = pod, 1 = app, 2 = cloud
+
+    public enum Type {
         GLUCOSE_READING,
         INSULIN_INJECTION,
     }
@@ -17,8 +19,9 @@ public class Event {
 
     public double amount;
 
-    public Event(long userId, Type type, long time, double amount) {
+    public Event(long userId, long owner, Type type, long time, double amount) {
         this.userId = userId;
+        this.owner = owner;
         this.type = type;
         this.time = time;
         this.amount = amount;
@@ -26,6 +29,7 @@ public class Event {
 
     public Event(JSONObject buffer) throws JSONException {
         userId = buffer.getLong("userId");
+        owner = buffer.getLong("owner");
         int typeBuffer = buffer.getInt("type");
         if (typeBuffer == Type.GLUCOSE_READING.ordinal()) {
             type = Type.GLUCOSE_READING;
@@ -33,12 +37,13 @@ public class Event {
             type = Type.INSULIN_INJECTION;
         }
         time = buffer.getLong("time");
-        amount = buffer.getFloat("amount");
+        amount = buffer.getDouble("amount");
     }
 
-    public JSONObject serialize() throws JSONException {
+    public JSONObject serialise() throws JSONException {
         JSONObject buffer = new JSONObject();
         buffer.put("userId", userId);
+        buffer.put("owner", owner);
         buffer.put("type", type.ordinal());
         buffer.put("time", time);
         buffer.put("amount", amount);
